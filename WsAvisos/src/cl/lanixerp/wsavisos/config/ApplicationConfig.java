@@ -11,16 +11,16 @@ import cl.lanixerp.wsavisos.rest.WsAvisos;
 @ApplicationPath("/")
 public class ApplicationConfig extends Application {
 	
-    @Override
+	@Override
     public Set<Class<?>> getClasses() {
-                Set<Class<?>> clases = new HashSet<>();
+		Set<Class<?>> clases = new HashSet<>();
             clases.add(WsAvisos.class);
         return clases;
     }
-
-    @Override
-    public Set<Object> getSingletons() {
-            return new HashSet<Object>();
-    }
+	
+	@Override
+	public Set<Object> getSingletons() {
+		return new HashSet<Object>();
+	}
 	
 }

@@ -27,13 +27,17 @@ public class CargadorAvisos {
 	protected Client client;
 	private final String hostDEV = "https://dev.lanixerp.cl";
 	private final String hostPRD = "https://ws.lanixerp.cl";
+        private final String hostLCL = "http://localhost:8080/";
 	private final String listar = "/WsAvisos/avisos/listar";
 	private final String registrar = "/WsAvisos/avisos/registrar";
 	private final String borrar = "/WsAvisos/avisos/borrar";
+        private final String test = "WsAvisos/avisos/testConnection";
 	
 	private Gson gson;
 	
 	private Integer idmax=1;
+        
+        private WebResource call = null;
 
 	public CargadorAvisos() {
 		inicializar();
@@ -51,13 +55,7 @@ public class CargadorAvisos {
 		ArrayList<Aviso> str = new ArrayList<Aviso>();
 
 		try {
-			WebResource call = null;
-
-			if (PCA.is(Argumento.dev)) {
-				call = client.resource(hostDEV);
-			} else {
-				call = client.resource(hostPRD);
-			}
+			setCall();
 
 			String respStr = call.path(listar).accept(MediaType.APPLICATION_XML).get(String.class);
 
@@ -108,13 +106,7 @@ public class CargadorAvisos {
 	
 	public void enviarAviso(Aviso aviso) {
 		try {
-			WebResource call = null;
-
-			if (PCA.is(Argumento.dev)) {
-				call = client.resource(hostDEV);
-			} else {
-				call = client.resource(hostPRD);
-			}
+			setCall();
 
 			// Convertir el Aviso a JSON usando Gson
 			String avisoJson = gson.toJson(aviso);
@@ -138,15 +130,8 @@ public class CargadorAvisos {
 
 	public void borrarAviso(Integer id) {
 		try {
-			WebResource call = null;
-
-			if (PCA.is(Argumento.dev)) {
-				call = client.resource(hostDEV);
-			} else {
-				call = client.resource(hostPRD);
-			}
-
-
+			setCall();
+                        
 			// Enviar el JSON al endpoint
 			System.out.println("Borrando Aviso: "+id);
 			ClientResponse response = call.path(borrar+"/"+id).type(MediaType.APPLICATION_JSON).delete(ClientResponse.class);
@@ -162,5 +147,38 @@ public class CargadorAvisos {
 			e.printStackTrace();
 		}
 	}
+        
+        public void test(){
+            try {
+                setCall();
+                
+                // Enviar el JSON al endpoint
+                System.out.println("Borrando Aviso: Probando conexion");
+                ClientResponse response = call.path(test+"/").type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+
+                // Manejar la respuesta
+                if (response.getStatus() == 200) {
+                        System.out.println("Conexion Exitosa");
+                        System.out.println(response.toString());
+                } else {
+                        System.out.println("Error al Borrar aviso: " + response.getStatus());
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    
+    public void setCall(){
+        call = null;
+        
+        if (PCA.is(Argumento.dev)) {
+                call = client.resource(hostDEV);
+        } else if (PCA.is(Argumento.local)) {
+                call = client.resource(hostLCL);
+        }else {
+                call = client.resource(hostPRD);
+        }
+    }
 	
 }

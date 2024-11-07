@@ -9,8 +9,9 @@ public class PCA {
 	private static Properties propiedades;
 
 	public enum Argumento {
-		dev("dev=true: Se usara el ambiente dev.lanixerp.cl, sino se usara ws.lanixerp.cl");
-
+		dev("dev=true: Se usara el ambiente dev.lanixerp.cl, sino se usara ws.lanixerp.cl"),
+                local("local=true: Se usara localhost como endpoint");
+                
 		String desc;
 
 		Argumento(String s) {

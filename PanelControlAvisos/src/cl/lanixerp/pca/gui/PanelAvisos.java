@@ -57,6 +57,7 @@ public class PanelAvisos extends JFrame {
 	private JButton removeButton;
 	private JButton refreshButton;
 	private JButton addButton;
+//        private JButton testButton;
 
 	private JProgressBar progress;
 
@@ -64,7 +65,9 @@ public class PanelAvisos extends JFrame {
 
 	public PanelAvisos() {
 
-		setTitle("Panel Control Avisos " + (PCA.is(Argumento.dev) ? "DEV" : "PROD"));
+		setTitle("Panel Control Avisos " + 
+                    (PCA.is(Argumento.local) ? "LOCAL" : 
+                    (PCA.is(Argumento.dev) ? "DEV" : "PROD")));
 		setSize(900, 600);
 		setMinimumSize(getSize());
 		setResizable(false);
@@ -218,6 +221,17 @@ public class PanelAvisos extends JFrame {
 				rondaAvisos();
 			}
 		});
+                
+//                testButton = new JButton("a");
+//                testButton.setToolTipText("Probar Conexion DB");
+//                testButton.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//                            System.out.println("Hola Mundo");
+//                            cav.test();
+//			}
+//		});
 
 		// Crear botón para eliminar elementos de la lista
 		removeButton = new JButton("-");
@@ -361,6 +375,7 @@ public class PanelAvisos extends JFrame {
 
 		panelVisor.add("1, 5 ", refreshButton);
 		panelVisor.add("2, 5 ", btnPlay);
+//		panelVisor.add("3, 6 ", testButton);
 		panelVisor.add("4, 5 ", removeButton);
 		panelVisor.add("5, 5 ", addButton);
 
